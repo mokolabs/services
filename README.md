@@ -1,10 +1,12 @@
 # SERVICES.YML
-==============
+
 A simple file format for documenting services used by web apps
 
-Web apps often use a dozen or more third-party services and it can quickly become difficult to remember which services are used by the app, especially when working with larger numbers of apps.
+## The problem
 
-## How it works
+Web apps often use a dozen or more third-party services and it can quickly become difficult to remember which services are used by the app, especially when working with many apps.
+
+## The solution
 
 We can fix this by adding a list of services to our app.
 
@@ -19,6 +21,7 @@ The list should:
 
 ## Example
 
+```
 hosting: digitalocean
 advertising: google
 email:
@@ -32,14 +35,15 @@ storage:
   amazon:
     - cloudfront
     - s3
+```
 
 ## FAQ
 
 ### Why not just use ENV variables?
-ENV variables are used to store app secrets and other configs. We want a short list that we can read and understand in a glance.
+ENV variables are used to store app secrets and other configuration settings. We want a short list that we can read and understand in a glance.
 
-### Why note just use a Gemfile?
+### Why not just use a Gemfile?
 Gemfiles are used to manage dependencies. Usually, most gems in a Gemfile are not service related, so that makes it harder to find the ones that are services.
 
 ### Do I have to use valid YAML?
-No, not at all. Just start with YAML. But, if you find yourself needing to use non-YAML syntax, that's fine. This is *your* list.
+No, not at all. Just start with YAML. But, if you need to use non-YAML syntax later, that's fine. This is *your* list.
