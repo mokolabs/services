@@ -45,5 +45,8 @@ ENV variables are used to store app secrets and other configuration settings. We
 ### Why not just use a Gemfile?
 Gemfiles are used to manage dependencies. Usually, most gems in a Gemfile are not service related, so that makes it harder to find the ones that are services.
 
+### Why not just use a README?
+README files are often very long and take a considerable amount of time to read.
+
 ### Do I have to use valid YAML?
 No, not at all. Just start with YAML. But, if you need to use non-YAML syntax later, that's fine. This is *your* list.
