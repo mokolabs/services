@@ -51,5 +51,5 @@ README files are often very long and take a considerable amount of time to read.
 ### Do I have to use valid YAML?
 No, not at all. Just start with YAML. But, if you need to use non-YAML syntax later, that's fine. This is *your* list.
 
-### Is this format supposed to be machine-parsable?
+### Is this format supposed to be machine-parseable?
 Not really, but you're welcome to do so.
