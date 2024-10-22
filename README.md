@@ -2,6 +2,8 @@
 
 A simple file format for documenting services used by Rails apps
 
+https://mokolabs.github.io/services/
+
 ## The problem
 
 Rails apps often use a dozen or more third-party services and it can quickly become difficult to remember which services are used by the app, especially when working with many apps.
