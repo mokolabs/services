@@ -1,10 +1,10 @@
 # SERVICES.YML
 
-A simple file format for documenting services used by web apps
+A simple file format for documenting services used by Rails apps
 
 ## The problem
 
-Web apps often use a dozen or more third-party services and it can quickly become difficult to remember which services are used by the app, especially when working with many apps.
+Rails apps often use a dozen or more third-party services and it can quickly become difficult to remember which services are used by the app, especially when working with many apps.
 
 ## The solution
 
@@ -53,3 +53,6 @@ No, not at all. Just start with YAML. But, if you need to use non-YAML syntax la
 
 ### Is this format supposed to be machine-parseable?
 Not really, but you're welcome to do so.
+
+### Can I use this without Rails?
+Sure! This format can be used with any kind of web app.
