@@ -24,20 +24,25 @@ The list should:
 ## Example
 
 ```
-hosting: digitalocean
 advertising: google
+analytics: plausible
+ci: github
 email:
   transactional: postmark
   spam: akismet
+hosting: digitalocean
 mapping:
   geocoding: google
   maps: apple
 monitoring: sentry
+payments: stripe
 storage:
   amazon:
     - cloudfront
     - s3
 ```
+
+This example file contains several common service types. But you should use whatever service types make sense for your app.
 
 ## FAQ
 

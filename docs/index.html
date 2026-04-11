@@ -4,27 +4,22 @@ title: SERVICES.YML - A simple file format for documenting services used by Rail
 ---
 
 <div class="p-8 rounded-lg max-w-4xl w-full mx-4">
-  <header class="p-8 rounded-lg -mt-10 sm:mt-0">
-    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-1 mt-[2px]">SERVICES.YML</h1>
-    <p class="text-lg">A simple file format for documenting services used by Rails apps</p>
-  </header>
+
+<header class="p-8 rounded-lg -mt-10 sm:mt-0">
+  <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-1 mt-[2px]">SERVICES.YML</h1>
+  <p class="text-lg">A simple file format for documenting services used by Rails apps</p>
+</header>
 
   <section class="bg-[#4A6DE5] mb-8 bg-opacity-75 p-8 rounded-lg">
     <h2 class="text-3xl font-semibold mb-4">The problem</h2>
-    <p class="mb-4 last:mb-0 -mt-2">
-      Rails apps often use a dozen or more third-party services and it can quickly become difficult to remember which services are used by the app, especially when working with many apps.
-    </p>
+    <p class="-mt-2">Rails apps often use a dozen or more third-party services and it can quickly become difficult to remember which services are used by the app, especially when working with many apps.</p>
   </section>
 
   <section class="bg-[#4A6DE5] mb-8 bg-opacity-75 p-8 rounded-lg">
     <h2 class="text-3xl font-semibold mb-4">The solution</h2>
-    <p class="mb-4 -mt-2">
-      We can fix this by adding a list of services to our app.
-    </p>
-    <p class="mb-4">
-      The list should:
-    </p>
-    <ul class="list-disc list-inside mb-4 last:mb-0">
+    <p class="mb-4 -mt-2">We can fix this by adding a list of services to our app.</p>
+    <p class="mb-4">The list should:</p>
+    <ul class="list-disc list-inside ">
       <li>Be named <code class="bg-gray-800 p-1 rounded">SERVICES.YML</code></li>
       <li>Be stored in the root of the app</li>
       <li>Use the YAML format when possible</li>
@@ -37,69 +32,55 @@ title: SERVICES.YML - A simple file format for documenting services used by Rail
 
   <section class="bg-[#4A6DE5] mb-8 bg-opacity-75 p-8 rounded-lg">
     <h2 class="text-3xl font-semibold mb-4">Example</h2>
-    <pre class="bg-gray-800 p-4 rounded text-white">
-hosting: digitalocean
-advertising: google
+    <pre class="bg-gray-800 p-4 rounded text-white mb-4">advertising: google
+analytics: plausible
+ci: github
 email:
   transactional: postmark
   spam: akismet
+hosting: digitalocean
 mapping:
   geocoding: google
   maps: apple
 monitoring: sentry
+payments: stripe
 storage:
   amazon:
     - cloudfront
-    - s3</pre>
+    - s3
+</pre>
+    <p class="-mt-2">This example file contains several common service types. But you should use whatever service types make sense for your app.</p>
   </section>
 
   <section class="bg-[#4A6DE5] mb-8 bg-opacity-75 p-8 rounded-lg">
     <h2 class="text-3xl font-semibold mb-4">FAQ</h2>
-
     <div class="mb-4">
-      <h3 class="text-2xl font-semibold mb-2">Why not just use ENV variables?</h3>
-      <p class="mb-4">
-        ENV variables are used to store app secrets and other configuration settings. We want a short list that we can read and understand in a glance.
-      </p>
-    </div>
-
-    <div class="mb-4">
-      <h3 class="text-2xl font-semibold mb-2">Why not just use a Gemfile?</h3>
-      <p class="mb-4">
-        Gemfiles are used to manage dependencies. Usually, most gems in a Gemfile are not service related, so that makes it harder to find the ones that are services.
-      </p>
-    </div>
-
-    <div class="mb-4">
-      <h3 class="text-2xl font-semibold mb-2">Why not just use a README?</h3>
-      <p class="mb-4">
-        README files are often very long and take a considerable amount of time to read.
-      </p>
-    </div>
-
-    <div class="mb-4">
-      <h3 class="text-2xl font-semibold mb-2">Do I have to use valid YAML?</h3>
-      <p class="mb-4">
-        No, not at all. Just start with YAML. But, if you need to use non-YAML syntax later, that's fine. This is <em>your</em> list.
-      </p>
-    </div>
-
-    <div class="mb-4 last:mb-0">
-      <h3 class="text-2xl font-semibold mb-2">Is this format supposed to be machine-parseable?</h3>
-      <p>
-        Not really, but you're welcome to do so.
-      </p>
-    </div>
-
-    <div class="mb-4 last:mb-0">
-      <h3 class="text-2xl font-semibold mb-2">Can I use this without Rails?</h3>
-      <p>
-        Sure! This format can be used with any kind of web app.
-      </p>
-    </div>
+          <h3 class="text-2xl font-semibold mb-2" id="why-not-just-use-env-variables">Why not just use ENV variables?</h3>
+          <p class="mb-4">ENV variables are used to store app secrets and other configuration settings. We want a short list that we can read and understand in a glance.</p>
+        </div>
+        <div class="mb-4">
+          <h3 class="text-2xl font-semibold mb-2" id="why-not-just-use-a-gemfile">Why not just use a Gemfile?</h3>
+          <p class="mb-4">Gemfiles are used to manage dependencies. Usually, most gems in a Gemfile are not service related, so that makes it harder to find the ones that are services.</p>
+        </div>
+        <div class="mb-4">
+          <h3 class="text-2xl font-semibold mb-2" id="why-not-just-use-a-readme">Why not just use a README?</h3>
+          <p class="mb-4">README files are often very long and take a considerable amount of time to read.</p>
+        </div>
+        <div class="mb-4">
+          <h3 class="text-2xl font-semibold mb-2" id="do-i-have-to-use-valid-yaml">Do I have to use valid YAML?</h3>
+          <p class="mb-4">No, not at all. Just start with YAML. But, if you need to use non-YAML syntax later, that’s fine. This is <em>your</em> list.</p>
+        </div>
+        <div class="mb-4">
+          <h3 class="text-2xl font-semibold mb-2" id="is-this-format-supposed-to-be-machine-parseable">Is this format supposed to be machine-parseable?</h3>
+          <p class="mb-4">Not really, but you’re welcome to do so.</p>
+        </div>
+        <div class="">
+          <h3 class="text-2xl font-semibold mb-2" id="can-i-use-this-without-rails">Can I use this without Rails?</h3>
+          <p class="">Sure! This format can be used with any kind of web app.</p>
+        </div>
   </section>
 
-  <footer class="bg-gray-800 p-4 rounded-lg text-center text-white">
-    <p class="text-sm">Shared under the MIT license. Copyright &copy; 2024 Patrick Crowley.</p>
-  </footer>
+<footer class="bg-gray-800 p-4 rounded-lg text-center text-white">
+  <p class="text-sm">Shared under the MIT license. Copyright &copy; Patrick Crowley.</p>
+</footer>
 </div>

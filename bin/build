@@ -1,0 +1,153 @@
+#!/usr/bin/env ruby
+#
+# Generates docs/index.html from README.md
+#
+# Usage: bin/build
+
+require "kramdown"
+require "kramdown-parser-gfm"
+
+ROOT = File.expand_path("..", __dir__)
+README_PATH = File.join(ROOT, "README.md")
+OUTPUT_PATH = File.join(ROOT, "docs", "index.html")
+
+# Read README
+readme = File.read(README_PATH)
+
+# Split into lines and extract header (h1 + subtitle)
+lines = readme.lines
+title = lines[0].sub(/^#\s+/, "").strip
+subtitle = lines[2].strip
+
+# Extract sections by splitting on ## headings
+sections = []
+current_section = nil
+
+lines[4..].each do |line|
+  if line.start_with?("## ")
+    sections << current_section if current_section
+    current_section = { heading: line.sub(/^##\s+/, "").strip, body: "" }
+  elsif current_section
+    current_section[:body] << line
+  end
+end
+sections << current_section if current_section
+
+def render_markdown(text)
+  Kramdown::Document.new(text.strip, input: "GFM").to_html
+end
+
+def style_html(html)
+  # Order matters: pre>code before standalone code
+  html
+    .gsub("<h3", '<h3 class="text-2xl font-semibold mb-2"')
+    .gsub("<p>", '<p class="mb-4">')
+    .gsub(/<ul>\n/, '<ul class="list-disc list-inside mb-4">' + "\n")
+    .gsub(/<pre><code class="language-\w*">\n?/, '<pre class="bg-gray-800 p-4 rounded text-white mb-4">')
+    .gsub(/<pre><code>\n?/, '<pre class="bg-gray-800 p-4 rounded text-white mb-4">')
+    .gsub(%r{</code></pre>}, "</pre>")
+    .gsub("<code>", '<code class="bg-gray-800 p-1 rounded">')
+end
+
+def remove_last_mb4(html)
+  # Remove mb-4 from the last element that has it
+  pos = html.rindex("mb-4")
+  return html unless pos
+  html[0...pos] + html[pos..].sub("mb-4 ", "").sub("mb-4", "")
+end
+
+def render_section(section)
+  html = render_markdown(section[:body])
+  html = style_html(html)
+
+  # For FAQ section: wrap each h3 + content in a div
+  if section[:heading] == "FAQ"
+    html = wrap_faq_items(html)
+  else
+    # Add -mt-2 to first paragraph
+    html = html.sub('<p class="mb-4">', '<p class="mb-4 -mt-2">')
+  end
+
+  # Remove bottom margin from last element
+  html = remove_last_mb4(html)
+
+  # Build section with proper indentation (but don't indent pre content)
+  inner = indent_preserving_pre(html.strip, "    ")
+
+  <<~HTML
+
+  <section class="bg-[#4A6DE5] mb-8 bg-opacity-75 p-8 rounded-lg">
+    <h2 class="text-3xl font-semibold mb-4">#{section[:heading]}</h2>
+#{inner}
+  </section>
+  HTML
+end
+
+def wrap_faq_items(html)
+  items = html.split(/(?=<h3 )/).reject { |p| p.strip.empty? }
+  items.map.with_index do |part, i|
+    inner = indent_preserving_pre(part.strip, "      ")
+    css = i == items.length - 1 ? "" : " mb-4"
+    "\n    <div class=\"#{css.strip}\">\n#{inner}\n    </div>"
+  end.join("\n")
+end
+
+def indent_preserving_pre(text, prefix)
+  in_pre = false
+  text.lines.map do |line|
+    if line.include?("<pre ")
+      in_pre = true
+      "#{prefix}#{line}"
+    elsif line.include?("</pre>")
+      in_pre = false
+      "#{line.rstrip.empty? ? prefix : ""}#{line}"
+    elsif in_pre
+      line
+    elsif line.strip.empty?
+      ""
+    else
+      "#{prefix}#{line}"
+    end
+  end.join
+end
+
+# Build the page
+parts = []
+
+# Header
+parts << <<~HTML
+
+  <header class="p-8 rounded-lg -mt-10 sm:mt-0">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-1 mt-[2px]">#{title}</h1>
+    <p class="text-lg">#{subtitle}</p>
+  </header>
+HTML
+
+# Sections
+sections.each do |section|
+  parts << render_section(section)
+end
+
+# Footer
+parts << <<~HTML
+
+  <footer class="bg-gray-800 p-4 rounded-lg text-center text-white">
+    <p class="text-sm">Shared under the MIT license. Copyright &copy; Patrick Crowley.</p>
+  </footer>
+HTML
+
+content = parts.join.rstrip
+
+output = <<~HTML
+---
+layout: default
+title: SERVICES.YML - A simple file format for documenting services used by Rails apps
+---
+
+<div class="p-8 rounded-lg max-w-4xl w-full mx-4">
+#{content}
+</div>
+HTML
+
+File.write(OUTPUT_PATH, output)
+puts "Generated #{OUTPUT_PATH}"
