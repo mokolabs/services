@@ -13,7 +13,7 @@ Rails apps often use a dozen or more third-party services and it can quickly bec
 We can fix this by adding a list of services to our app.
 
 The list should:
-- Be named `SERVICES.YML`
+- Be named `SERVICES.yml`
 - Be stored in the root of the app
 - Use the YAML format when possible
 - Use single words to describe service types
