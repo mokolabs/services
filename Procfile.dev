@@ -1,1 +1,1 @@
-web: bundle exec jekyll serve --source docs --config _config.yml,_config_dev.yml --port 3000
+web: bundle exec jekyll serve --source docs --config _config.yml,_config_dev.yml --port ${PORT:-3000}
